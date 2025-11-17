@@ -1,6 +1,8 @@
 package bricker.main;
 
+import bricker.brick_strategies.BasicCollisionStrategy;
 import bricker.gameobjects.Ball;
+import bricker.gameobjects.Brick;
 import bricker.gameobjects.Paddle;
 import bricker.gameobjects.Wall;
 import danogl.GameManager;
@@ -24,6 +26,8 @@ public class BrickerGameManager extends GameManager{
     private static final Vector2 PADDLE_SIZE = new Vector2(100,15);
     public static final float PADDLE_MARGIN = 2;
     private static final float WALL_WIDTH = 5;
+    private static final float BRICK_WIDTH = 700;
+    private static final float BRICK_HEIGHT = 15;
 
 
     public BrickerGameManager(String bricker, Vector2 vector2) {
@@ -80,6 +84,13 @@ public class BrickerGameManager extends GameManager{
 
         this.gameObjects().addGameObject(background, Layer.BACKGROUND);
 
+        // bricks creation
+        Vector2 brickSize = new Vector2(BRICK_WIDTH, BRICK_HEIGHT);
+        Renderable brickImage =  imageReader.readImage("bricker/assets/brick.png", false);
+        BasicCollisionStrategy basicCollisionStrategy = new BasicCollisionStrategy(this);
+        Brick brick = new Brick(Vector2.RIGHT.mult(windowX * 0.2f), brickSize,brickImage, basicCollisionStrategy);
+
+            this.gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
     }
 
 
@@ -90,7 +101,8 @@ public class BrickerGameManager extends GameManager{
     }
 
 
-
-
+    public void removeObject(GameObject other, int layer) {
+        gameObjects().removeGameObject(other, layer);
+    }
 }
 

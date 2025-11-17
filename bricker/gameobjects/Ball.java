@@ -40,7 +40,6 @@ public class Ball extends GameObject {
         super.onCollisionEnter(other, collision);
         setVelocity(getVelocity().flipped(collision.getNormal()));
         collisionCounter ++;
-        System.out.println("Bounce!");
         collisionSound.play();
     }
 
