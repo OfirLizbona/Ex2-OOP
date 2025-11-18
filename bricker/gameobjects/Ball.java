@@ -11,7 +11,7 @@ import java.util.Random;
 public class Ball extends GameObject {
 
 
-    private static final int BALL_SPEED = 200;
+    private static final int BALL_SPEED = 300;
     private final Sound collisionSound;
 
     private int collisionCounter = 0;
