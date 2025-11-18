@@ -35,7 +35,10 @@ public class BrickerGameManager extends GameManager{
     }
 
     @Override
-    public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
+    public void initializeGame(ImageReader imageReader,
+                               SoundReader soundReader,
+                               UserInputListener inputListener,
+                               WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
 
         // ball creation
@@ -78,17 +81,23 @@ public class BrickerGameManager extends GameManager{
         this.gameObjects().addGameObject(leftWall, Layer.STATIC_OBJECTS);
         this.gameObjects().addGameObject(rightWall, Layer.STATIC_OBJECTS);
         this.gameObjects().addGameObject(roof, Layer.STATIC_OBJECTS);
-        Renderable backgroundImage = imageReader.readImage("bricker/assets/DARK_BG2_small.jpeg", true);
-        GameObject background = new GameObject(Vector2.ZERO, windowController.getWindowDimensions(),backgroundImage);
+        Renderable backgroundImage = imageReader.readImage(
+                "bricker/assets/DARK_BG2_small.jpeg", true);
+        GameObject background = new GameObject(Vector2.ZERO,
+                windowController.getWindowDimensions(),backgroundImage);
         background.setCenter(windowController.getWindowDimensions().mult(0.5f));
 
         this.gameObjects().addGameObject(background, Layer.BACKGROUND);
 
         // bricks creation
+
+
         Vector2 brickSize = new Vector2(BRICK_WIDTH, BRICK_HEIGHT);
-        Renderable brickImage =  imageReader.readImage("bricker/assets/brick.png", false);
+        Renderable brickImage =  imageReader.readImage("bricker/assets/brick.png",
+                false);
         BasicCollisionStrategy basicCollisionStrategy = new BasicCollisionStrategy(this);
-        Brick brick = new Brick(Vector2.RIGHT.mult(windowX * 0.2f), brickSize,brickImage, basicCollisionStrategy);
+        Brick brick = new Brick(Vector2.RIGHT.mult(windowX * 0.2f),
+                brickSize,brickImage, basicCollisionStrategy);
 
             this.gameObjects().addGameObject(brick, Layer.STATIC_OBJECTS);
     }
@@ -96,13 +105,18 @@ public class BrickerGameManager extends GameManager{
 
 
     public static void main(String[] args) {
-        BrickerGameManager gameManager = new BrickerGameManager("Bricker", new Vector2(WINDOW_WIDTH, WINDOW_HEIGHT));
+        BrickerGameManager gameManager = new BrickerGameManager(
+                "Bricker", new Vector2(WINDOW_WIDTH, WINDOW_HEIGHT));
         gameManager.run();
     }
 
 
     public void removeObject(GameObject other, int layer) {
         gameObjects().removeGameObject(other, layer);
+    }
+
+    private void generateBricks(int rowLength, int rowsCount) {
+
     }
 }
 
