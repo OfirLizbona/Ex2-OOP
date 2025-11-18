@@ -2,18 +2,18 @@ package bricker.gameobjects;
 
 import danogl.GameObject;
 import danogl.gui.UserInputListener;
+import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
 import java.awt.event.KeyEvent;
 
-import static bricker.main.BrickerGameManager.PADDLE_MARGIN;
-import static bricker.main.BrickerGameManager.WINDOW_WIDTH;
-
 public class Paddle  extends GameObject {
 
     private static final float PADDLE_SPEED = 300;
     private final UserInputListener inputListener;
+    private final float margin;
+    private final WindowController windowController;
 
     /**
      * Construct a new GameObject instance.
@@ -23,11 +23,13 @@ public class Paddle  extends GameObject {
      * @param dimensions    Width and height in window coordinates.
      * @param renderable    The renderable representing the object. Can be null, in which case
      *                      the GameObject will not be rendered.
-     * @param inputListener
+     * @param inputListener keyboard listener for paddle movement
      */
-    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, UserInputListener inputListener) {
+    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, UserInputListener inputListener, float margin, WindowController windowController) {
         super(topLeftCorner, dimensions, renderable);
         this.inputListener = inputListener;
+        this.margin = margin;
+        this.windowController = windowController;
     }
 
     @Override
@@ -43,16 +45,15 @@ public class Paddle  extends GameObject {
             paddleVelocity = paddleVelocity.add(Vector2.RIGHT.mult(PADDLE_SPEED));
         }
 
-        // TODO: calculate the locations without importing the constants.
         if (getTopLeftCorner().x() <= 0 ){
             setTopLeftCorner(new Vector2(
-                    PADDLE_MARGIN,getTopLeftCorner().y()
+                    margin,getTopLeftCorner().y()
             ));
             paddleVelocity = Vector2.ZERO;
         }
-        if (getTopLeftCorner().x() >=  WINDOW_WIDTH - getDimensions().x() ) {
+        if (getTopLeftCorner().x() >=  windowController.getWindowDimensions().x() - getDimensions().x() ) {
             setTopLeftCorner(new Vector2(
-                    WINDOW_WIDTH - PADDLE_MARGIN - getDimensions().x(),getTopLeftCorner().y()
+                    windowController.getWindowDimensions().x() - margin - getDimensions().x(),getTopLeftCorner().y()
             ));
             paddleVelocity = Vector2.ZERO;
         }

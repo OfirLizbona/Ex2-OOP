@@ -16,18 +16,18 @@ import danogl.util.Vector2;
 public class BrickerGameManager extends GameManager{
 
     // dimensions
-    public static final int WINDOW_WIDTH = 700; // TODO: fix
+    private static final int WINDOW_WIDTH = 700;
     private static final int WINDOW_HEIGHT = 500;
     private static final int BALL_RADIUS = 20;
     private static final Vector2 PADDLE_SIZE = new Vector2(100,15);
-    public static final float PADDLE_MARGIN = 2; // TODO: fix
+    private static final float PADDLE_MARGIN = 2;
     private static final float WALL_WIDTH = 5;
     private static final float BRICK_HEIGHT = 15;
 
     // assets paths
     private static final String PADDLE_IMAGE_PATH = "bricker/assets/paddle.png";
     private static final String DARK_BG_PATH = "bricker/assets/DARK_BG2_small.jpeg";
-    private static final String STANDART_BALL_PATH = "bricker/assets/ball.png";
+    private static final String STANDARD_BALL_PATH = "bricker/assets/ball.png";
     private static final String BLOP_SOUND_PATH = "bricker/assets/blop.wav";
     private static final String BRICK_IMAGE_PATH = "bricker/assets/brick.png";
 
@@ -74,7 +74,7 @@ public class BrickerGameManager extends GameManager{
                 windowX/2,
                 windowY - PADDLE_SIZE.y() - PADDLE_MARGIN);
         
-        Paddle paddle = new Paddle(Vector2.ZERO, PADDLE_SIZE,paddleImage , inputListener);
+        Paddle paddle = new Paddle(Vector2.ZERO, PADDLE_SIZE,paddleImage , inputListener, PADDLE_MARGIN, windowController);
 
         paddle.setCenter(paddleLocation);
 
@@ -85,7 +85,7 @@ public class BrickerGameManager extends GameManager{
         Vector2 wallSize = new Vector2(WALL_WIDTH, windowY);
         Wall leftWall = new Wall(Vector2.ZERO, wallSize,null);
         Wall rightWall = new Wall(Vector2.RIGHT.mult(windowX - WALL_WIDTH), wallSize,null);
-        Wall roof = new Wall(Vector2.ZERO, new Vector2(windowX,WALL_WIDTH),null);
+        Wall roof = new Wall(Vector2.ZERO, new Vector2(windowX, WALL_WIDTH),null);
 
         this.gameObjects().addGameObject(leftWall, Layer.STATIC_OBJECTS);
         this.gameObjects().addGameObject(rightWall, Layer.STATIC_OBJECTS);
@@ -125,7 +125,7 @@ public class BrickerGameManager extends GameManager{
 
         // ball creation
         Renderable ballImage =
-                imageReader.readImage(STANDART_BALL_PATH, true);
+                imageReader.readImage(STANDARD_BALL_PATH, true);
         Sound collisionSound = soundReader.readSound(BLOP_SOUND_PATH);
         ball = new Ball(
                 Vector2.ZERO,Vector2.ONES.mult(BALL_RADIUS),ballImage, collisionSound);
