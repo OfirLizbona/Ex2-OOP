@@ -1,5 +1,6 @@
 package bricker.gameobjects;
 
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.Sound;
@@ -16,7 +17,6 @@ public class Ball extends GameObject {
     private static final String STANDARD_BALL_PATH = "bricker/assets/ball.png";
     private static final String BLOP_SOUND_PATH = "bricker/assets/blop.wav";
     private final Sound collisionSound;
-    private int collisionCounter = 0;
 
     /**
      * Construct a new GameObject instance.
@@ -25,12 +25,13 @@ public class Ball extends GameObject {
      *                      Note that (0,0) is the top-left corner of the window.
      * @param dimensions    Width and height in window coordinates.
      */
-    public Ball(Vector2 topLeftCorner, Vector2 dimensions, ImageReader imageReader, SoundReader soundReader) {
+    public Ball(Vector2 topLeftCorner, Vector2 dimensions, BrickerGameManager gameManager) {
          Renderable ballImage =
-                 imageReader.readImage(STANDARD_BALL_PATH, true);
-        this.collisionSound = soundReader.readSound(BLOP_SOUND_PATH);
+                 gameManager.readImage(STANDARD_BALL_PATH, true);
+        this.collisionSound = gameManager.readSound(BLOP_SOUND_PATH);
         super(topLeftCorner, dimensions, ballImage);
     }
+
     @Override
     public void update(float delta) {
         super.update(delta);
@@ -41,7 +42,6 @@ public class Ball extends GameObject {
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         setVelocity(getVelocity().flipped(collision.getNormal()));
-        collisionCounter ++;
         collisionSound.play();
     }
 
@@ -58,10 +58,6 @@ public class Ball extends GameObject {
             ballYspeed = ballYspeed * -1;
         }
         setVelocity(new Vector2(ballXspeed, ballYspeed));
-    }
-
-    public int getCollisionCounter() {
-        return collisionCounter;
     }
 
 }

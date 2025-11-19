@@ -1,6 +1,7 @@
 package bricker.gameobjects;
 
 import bricker.brick_strategies.CollisionStrategy;
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.gui.rendering.Renderable;
@@ -11,28 +12,42 @@ public class Brick extends GameObject {
     private final CollisionStrategy collisionStrategy;
     private static final String BRICK_IMAGE_PATH = "bricker/assets/brick.png";
 
+    private int row;
+    private int col;
+
     /**
-     * Construct a new GameObject instance.
      *
-     * @param topLeftCorner Position of the object, in window coordinates (pixels).
-     *                      Note that (0,0) is the top-left corner of the window.
-     * @param dimensions    Width and height in window coordinates.
-     * @param renderable    The renderable representing the object. Can be null, in which case
-     *                      the GameObject will not be rendered.
+     * @param topLeftCorner
+     * @param dimensions
+     * @param collisionStrategy
+     * @param gameManager
+     * @param row
+     * @param col
      */
     public Brick(Vector2 topLeftCorner,
                  Vector2 dimensions,
-                 CollisionStrategy collisionStrategy, ImageReader imageReader) {
+                 CollisionStrategy collisionStrategy, BrickerGameManager gameManager, int row, int col) {
          Renderable brickImage =
-                 imageReader.readImage(BRICK_IMAGE_PATH, false);
-        super(topLeftCorner, dimensions, brickImage);
+                 gameManager.readImage(BRICK_IMAGE_PATH, false);
+
+         super(topLeftCorner, dimensions, brickImage);
         this.collisionStrategy = collisionStrategy;
+        this.row = row;
+        this.col = col;
     }
 
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
         collisionStrategy.onCollision(this, other);
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
     }
 }
 

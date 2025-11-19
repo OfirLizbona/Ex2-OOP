@@ -2,6 +2,7 @@ package bricker.main;
 
 import bricker.gameobjects.Heart;
 import danogl.GameObject;
+import danogl.collisions.Layer;
 import danogl.gui.ImageReader;
 import danogl.gui.rendering.TextRenderable;
 import danogl.util.Vector2;
@@ -23,16 +24,14 @@ public class LiveManager {
     private GameObject numericalDisplay;
     private TextRenderable textRenderable;
     private Vector2 windowDimensions;
-    private ImageReader imageReader;
 
-    public LiveManager(int initialLives, Vector2 windowDimensions, 
-                      BrickerGameManager gameManager, ImageReader imageReader) {
+    public LiveManager(
+                      BrickerGameManager gameManager, int initialLives) {
                         
         this.lives = initialLives;
-        this.windowDimensions = windowDimensions;
+        this.windowDimensions = gameManager.getWindowDims();
         this.gameManager = gameManager;
-        this.imageReader = imageReader;
-        this.hearts = new Heart[MAX_LIVES];
+        this.hearts = new GameObject[MAX_LIVES];
         
         // Initialize numerical display
         textRenderable = new TextRenderable(String.valueOf(lives));
@@ -41,7 +40,7 @@ public class LiveManager {
             new Vector2(NUMERICAL_DISPLAY_SIZE, NUMERICAL_DISPLAY_SIZE),
             textRenderable
         );
-        gameManager.addObject(numericalDisplay);
+        gameManager.addObject(numericalDisplay, Layer.UI);
         updateNumericalColor();
         
         // Initialize hearts
@@ -59,13 +58,12 @@ public class LiveManager {
             HEART_MARGIN_FROM_EDGE + index * HEART_SPACING,
             windowDimensions.y() - HEART_SIZE - HEART_MARGIN_FROM_EDGE
         );
-        hearts[index] = new Heart(
+        hearts[index] = new GameObject(
             heartPosition,
             new Vector2(HEART_SIZE, HEART_SIZE),
-            imageReader.readImage(HEART_IMAGE_PATH, true),
-            this
+            gameManager.readImage(HEART_IMAGE_PATH, true)
         );
-        gameManager.addObject(hearts[index]);
+        gameManager.addObject(hearts[index], Layer.UI);
     }
     
     public void increment() {
@@ -79,7 +77,7 @@ public class LiveManager {
     public void decrement() {
         if (lives > 0) {
             lives--;
-            gameManager.removeObject(hearts[lives]);
+            gameManager.removeObject(hearts[lives], Layer.UI);
             hearts[lives] = null;
             updateNumericalDisplay();
         }

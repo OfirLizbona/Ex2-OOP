@@ -1,5 +1,6 @@
 package bricker.gameobjects;
 
+import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
@@ -15,26 +16,23 @@ public class Paddle  extends GameObject {
     private static final String PADDLE_IMAGE_PATH = "bricker/assets/paddle.png";
     private final UserInputListener inputListener;
     private final float margin;
-    private final WindowController windowController;
+    private final BrickerGameManager gameManager;
 
     /**
-     * Construct a new GameObject instance.
      *
-     * @param topLeftCorner Position of the object, in window coordinates (pixels).
-     *                      Note that (0,0) is the top-left corner of the window.
-     * @param dimensions    Width and height in window coordinates.
-     * @param renderable    The renderable representing the object. Can be null, in which case
-     *                      the GameObject will not be rendered.
-     * @param inputListener keyboard listener for paddle movement
+     * @param topLeftCorner
+     * @param dimensions
+     * @param margin
+     * @param gameManager
      */
-    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, UserInputListener inputListener, float margin, 
-            WindowController windowController, ImageReader imageReader) {
+    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, float margin,
+            BrickerGameManager gameManager) {
         Renderable paddleImage =
-                 imageReader.readImage(PADDLE_IMAGE_PATH, true);
+                 gameManager.readImage(PADDLE_IMAGE_PATH, true);
         super(topLeftCorner, dimensions, paddleImage);
-        this.inputListener = inputListener;
+        this.gameManager = gameManager;
+        this.inputListener = gameManager.getInputListener();
         this.margin = margin;
-        this.windowController = windowController;
     }
 
     @Override
@@ -56,9 +54,9 @@ public class Paddle  extends GameObject {
             ));
             paddleVelocity = Vector2.ZERO;
         }
-        if (getTopLeftCorner().x() >=  windowController.getWindowDimensions().x() - getDimensions().x() ) {
+        if (getTopLeftCorner().x() >=  gameManager.getWindowDims().x() - getDimensions().x() ) {
             setTopLeftCorner(new Vector2(
-                    windowController.getWindowDimensions().x() - margin - getDimensions().x(),getTopLeftCorner().y()
+                    gameManager.getWindowDims().x() - margin - getDimensions().x(),getTopLeftCorner().y()
             ));
             paddleVelocity = Vector2.ZERO;
         }

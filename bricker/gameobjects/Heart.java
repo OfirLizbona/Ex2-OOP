@@ -1,5 +1,6 @@
 package bricker.gameobjects;
 
+import bricker.main.BrickerGameManager;
 import bricker.main.LiveManager;
 import danogl.GameObject;
 import danogl.collisions.Collision;
@@ -8,23 +9,19 @@ import danogl.util.Vector2;
 
 public class Heart extends GameObject {
     private final LiveManager liveManager;
-    private final boolean isCollectable;
-    public Heart(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, LiveManager liveManager) {
+    private final BrickerGameManager gameManager;
+
+    public Heart(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, BrickerGameManager gameManager) {
         super(topLeftCorner, dimensions, renderable);
-        this.liveManager = liveManager;
-        this.isCollectable = false;
-    }
-    public Heart(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, LiveManager liveManager, boolean isCollectable) {
-        super(topLeftCorner, dimensions, renderable);
-        this.liveManager = liveManager;
-        this.isCollectable = isCollectable;
+        this.gameManager = gameManager;
+        this.liveManager = gameManager.getLiveManager();
+
     }
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
-        if (isCollectable) {
             liveManager.increment();
-        }
+            gameManager.removeObject(this);
     }
     public void startMove() {
         setVelocity(new Vector2(0, 100));
