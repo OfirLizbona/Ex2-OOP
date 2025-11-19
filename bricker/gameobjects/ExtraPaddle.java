@@ -27,10 +27,11 @@ public class ExtraPaddle extends Paddle{
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
         super.onCollisionEnter(other, collision);
-        collisionsLeft --;
-        if (collisionsLeft <= 0) {
-            gameManager.removeObject(this);
+        if(other instanceof Ball) {
+            collisionsLeft--;
+            if (collisionsLeft <= 0) {
+                gameManager.removeObject(this);
+            }
         }
-
     }
 }

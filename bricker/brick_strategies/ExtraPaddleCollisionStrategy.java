@@ -2,7 +2,6 @@ package bricker.brick_strategies;
 
 import bricker.gameobjects.Brick;
 import bricker.gameobjects.ExtraPaddle;
-import bricker.gameobjects.Paddle;
 import bricker.main.BrickerGameManager;
 import bricker.main.BricksManager;
 import danogl.GameObject;
@@ -19,6 +18,7 @@ class ExtraPaddleCollisionStrategy extends BasicCollisionStrategy{
 
     @Override
     public void onCollision(Brick caller, GameObject other) {
+        // TODO: check if there isn't another paddle already
         ExtraPaddle paddle = new ExtraPaddle(Vector2.ZERO, EXTRA_PADDLE_SIZE, EXTRA_PADDLE_MARGIN, gameManager);
         paddle.setCenter(gameManager.getWindowDims().mult(0.5f));
         gameManager.addObject(paddle);

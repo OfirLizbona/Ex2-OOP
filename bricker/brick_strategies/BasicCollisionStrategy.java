@@ -19,7 +19,7 @@ public class BasicCollisionStrategy implements CollisionStrategy {
 
     @Override
     public void onCollision(Brick caller, GameObject other) {
-        bricksManager.removeBrick(caller.getRow(), caller.getCol()); // TODO: i dont like this down casting
+        bricksManager.removeBrick(caller.getRow(), caller.getCol());
     }
 
 

@@ -31,12 +31,19 @@ class BlowingBrickCollisionStrategy extends BasicCollisionStrategy{
          int row = caller.getRow();
          int col = caller.getCol();
          for( int i = -1*(BLOWUP_RADIUS); i <= BLOWUP_RADIUS; i++) {
-             for (int j = -1*(BLOWUP_RADIUS); j <= BLOWUP_RADIUS; j++) {
-                 if (!(i==0 && j==0)) {
-                     Brick neighbor = bricksManager.getBrick(row + i, col + j);
-                     if (neighbor != null) {
-                         neighbor.onCollisionEnter(neighbor,null);
-                     }
+             if (i != 0) {
+                 Brick neighbor = bricksManager.getBrick(row + i, col);
+                 if (neighbor != null) {
+                     neighbor.onCollisionEnter(neighbor, null);
+                 }
+             }
+         }
+
+         for (int j = -1*(BLOWUP_RADIUS); j <= BLOWUP_RADIUS; j++) {
+             if (j != 0) {
+                 Brick neighbor = bricksManager.getBrick(row, col + j);
+                 if (neighbor != null) {
+                     neighbor.onCollisionEnter(neighbor,null);
                  }
              }
          }
