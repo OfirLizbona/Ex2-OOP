@@ -19,14 +19,19 @@ public class Heart extends GameObject {
     }
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
-        super.onCollisionEnter(other, collision);
+        if (other instanceof Paddle) {
+            super.onCollisionEnter(other, collision);
             liveManager.increment();
             gameManager.removeObject(this);
+        }
     }
     public void startMove() {
         setVelocity(new Vector2(0, 100));
     }
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if (getTopLeftCorner().y() >= gameManager.getWindowDims().y()) {
+            gameManager.removeObject(this);
+        }
     }
 }

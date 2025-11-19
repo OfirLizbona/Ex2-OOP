@@ -43,8 +43,7 @@ public class CollisionStrategyFactory {
 
                     case 3:
                         // Extra Paddle
-                        // return new ExtraLivesCollisionStrategy(bricksManager, gameManager);
-                        return new BasicCollisionStrategy(gameManager, bricksManager);
+                        return new ExtraPaddleCollisionStrategy(gameManager, bricksManager);
 
                     case 4:
                         // Double

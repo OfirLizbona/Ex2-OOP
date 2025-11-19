@@ -16,7 +16,7 @@ public class Paddle  extends GameObject {
     private static final String PADDLE_IMAGE_PATH = "bricker/assets/paddle.png";
     private final UserInputListener inputListener;
     private final float margin;
-    private final BrickerGameManager gameManager;
+    protected final BrickerGameManager gameManager;
 
     /**
      *

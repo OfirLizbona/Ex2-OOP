@@ -40,7 +40,9 @@ public class Ball extends GameObject {
 
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
+
         super.onCollisionEnter(other, collision);
+        if (other instanceof Heart) return;
         setVelocity(getVelocity().flipped(collision.getNormal()));
         collisionSound.play();
     }

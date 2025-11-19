@@ -41,6 +41,7 @@ public class BricksManager{
         CollisionStrategyFactory factory = new CollisionStrategyFactory(gameManager, this);
         bricksNumber = new Counter(rowsNumber * rowsLength);
         float brickWidth = (gameManager.getWindowDims().x() / rowsLength ) - BRICK_MARGIN;
+
         for (int row = 0; row < rowsNumber; row++) {
             for (int col = 0; col < rowsLength ; col++) {
                 Vector2 currentPosition = new Vector2(
