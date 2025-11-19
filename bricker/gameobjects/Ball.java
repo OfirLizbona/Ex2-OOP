@@ -5,15 +5,17 @@ import danogl.collisions.Collision;
 import danogl.gui.Sound;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-
+import danogl.gui.ImageReader;
+import danogl.gui.SoundReader;
 import java.util.Random;
 
 public class Ball extends GameObject {
 
 
     private static final int BALL_SPEED = 300;
+    private static final String STANDARD_BALL_PATH = "bricker/assets/ball.png";
+    private static final String BLOP_SOUND_PATH = "bricker/assets/blop.wav";
     private final Sound collisionSound;
-
     private int collisionCounter = 0;
 
     /**
@@ -22,12 +24,12 @@ public class Ball extends GameObject {
      * @param topLeftCorner Position of the object, in window coordinates (pixels).
      *                      Note that (0,0) is the top-left corner of the window.
      * @param dimensions    Width and height in window coordinates.
-     * @param renderable    The renderable representing the object. Can be null, in which case
-     *                      the GameObject will not be rendered.
      */
-    public Ball(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, Sound collisionSound) {
-        super(topLeftCorner, dimensions, renderable);
-        this.collisionSound = collisionSound;
+    public Ball(Vector2 topLeftCorner, Vector2 dimensions, ImageReader imageReader, SoundReader soundReader) {
+         Renderable ballImage =
+                 imageReader.readImage(STANDARD_BALL_PATH, true);
+        this.collisionSound = soundReader.readSound(BLOP_SOUND_PATH);
+        super(topLeftCorner, dimensions, ballImage);
     }
     @Override
     public void update(float delta) {

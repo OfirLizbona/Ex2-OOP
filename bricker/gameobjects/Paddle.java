@@ -5,12 +5,14 @@ import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
+import danogl.gui.ImageReader;
 
 import java.awt.event.KeyEvent;
 
 public class Paddle  extends GameObject {
 
     private static final float PADDLE_SPEED = 300;
+    private static final String PADDLE_IMAGE_PATH = "bricker/assets/paddle.png";
     private final UserInputListener inputListener;
     private final float margin;
     private final WindowController windowController;
@@ -25,8 +27,11 @@ public class Paddle  extends GameObject {
      *                      the GameObject will not be rendered.
      * @param inputListener keyboard listener for paddle movement
      */
-    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable, UserInputListener inputListener, float margin, WindowController windowController) {
-        super(topLeftCorner, dimensions, renderable);
+    public Paddle(Vector2 topLeftCorner, Vector2 dimensions, UserInputListener inputListener, float margin, 
+            WindowController windowController, ImageReader imageReader) {
+        Renderable paddleImage =
+                 imageReader.readImage(PADDLE_IMAGE_PATH, true);
+        super(topLeftCorner, dimensions, paddleImage);
         this.inputListener = inputListener;
         this.margin = margin;
         this.windowController = windowController;
