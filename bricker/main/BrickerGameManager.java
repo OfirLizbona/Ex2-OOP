@@ -1,20 +1,20 @@
 package bricker.main;
 
-import bricker.brick_strategies.BasicCollisionStrategy;
 import bricker.gameobjects.Ball;
-import bricker.gameobjects.Brick;
 import bricker.gameobjects.Paddle;
 import bricker.gameobjects.Wall;
 import danogl.GameManager;
 import danogl.GameObject;
 import danogl.collisions.Layer;
 import danogl.gui.*;
-import danogl.gui.SoundReader;
 import danogl.gui.rendering.Renderable;
-import danogl.util.Counter;
 import danogl.util.Vector2;
 
-public class BrickerGameManager extends GameManager{
+/**
+ * Main game manager for the Bricker game.
+ * Manages game initialization, game loop, and win/lose conditions.
+ */
+public class BrickerGameManager extends GameManager {
 
     // dimensions
     private static final int WINDOW_WIDTH = 700;
@@ -36,23 +36,36 @@ public class BrickerGameManager extends GameManager{
 
     private final String[] args;
     private Ball ball;
-    // private int lives;
     private float windowY;
     private float windowX;
     private WindowController windowController;
     private LiveManager liveManager;
-    private BricksManager bricksMangager;
-
+    private BricksManager bricksManager;
+    private boolean hasExtraPaddle;
     private ImageReader imageReader;
     private SoundReader soundReader;
     private UserInputListener inputListener;
 
-    public BrickerGameManager(String bricker, Vector2 vector2, String[] args) {
-        super(bricker, vector2);
+    /**
+     * Constructs a new BrickerGameManager instance.
+     *
+     * @param windowTitle The title of the game window.
+     * @param windowDimensions The dimensions of the game window.
+     * @param args Command line arguments for number of brick rows and columns.
+     */
+    public BrickerGameManager(String windowTitle, Vector2 windowDimensions, String[] args) {
+        super(windowTitle, windowDimensions);
         this.args = args;
     }
 
-
+    /**
+     * Initializes the game by creating all game objects and setting up the game state.
+     *
+     * @param imageReader Used to read images from files.
+     * @param soundReader Used to read sounds from files.
+     * @param inputListener Used to read user input.
+     * @param windowController Used to control the game window.
+     */
     @Override
     public void initializeGame(ImageReader imageReader,
                                SoundReader soundReader,
@@ -67,6 +80,7 @@ public class BrickerGameManager extends GameManager{
         this.windowController = windowController;
         this.windowY = windowController.getWindowDimensions().y();
         this.windowX = windowController.getWindowDimensions().x();
+        this.hasExtraPaddle = false;
 
         // Initialize LiveManager
         initializeLiveManager();
@@ -86,7 +100,7 @@ public class BrickerGameManager extends GameManager{
     }
 
     private void initializeBricksManager() {
-        this.bricksMangager = new BricksManager( this, args);
+        this.bricksManager = new BricksManager(this, args);
     }
 
 
@@ -94,9 +108,9 @@ public class BrickerGameManager extends GameManager{
         this.liveManager = new LiveManager(this, INITIAL_LIVES_NUMBER);
     }
 
-    private void initializePaddle(){
+    private void initializePaddle() {
         Vector2 paddleLocation = new Vector2(
-                windowX/2,
+                windowX / 2,
                 windowY - PADDLE_SIZE.y() - PADDLE_MARGIN);
 
         Paddle paddle = new Paddle(Vector2.ZERO, PADDLE_SIZE, PADDLE_MARGIN, this);
@@ -104,26 +118,24 @@ public class BrickerGameManager extends GameManager{
         this.gameObjects().addGameObject(paddle);
     }
 
-    private void initializeWalls(){
+    private void initializeWalls() {
         Vector2 wallSize = new Vector2(WALL_WIDTH, windowY);
-        Wall leftWall = new Wall(Vector2.ZERO, wallSize,null);
-        Wall rightWall = new Wall(Vector2.RIGHT.mult(windowX - WALL_WIDTH), wallSize,null);
-        Wall roof = new Wall(Vector2.ZERO, new Vector2(windowX, WALL_WIDTH),null);
+        Wall leftWall = new Wall(Vector2.ZERO, wallSize, null);
+        Wall rightWall = new Wall(Vector2.RIGHT.mult(windowX - WALL_WIDTH), wallSize, null);
+        Wall roof = new Wall(Vector2.ZERO, new Vector2(windowX, WALL_WIDTH), null);
         this.gameObjects().addGameObject(leftWall, Layer.STATIC_OBJECTS);
         this.gameObjects().addGameObject(rightWall, Layer.STATIC_OBJECTS);
         this.gameObjects().addGameObject(roof, Layer.STATIC_OBJECTS);
 
-        Renderable backgroundImage = imageReader.readImage(
-                DARK_BG_PATH, true);
+        Renderable backgroundImage = imageReader.readImage(DARK_BG_PATH, true);
         GameObject background = new GameObject(Vector2.ZERO,
-                windowController.getWindowDimensions(),backgroundImage);
+                windowController.getWindowDimensions(), backgroundImage);
         background.setCenter(windowController.getWindowDimensions().mult(0.5f));
         this.gameObjects().addGameObject(background, Layer.BACKGROUND);
     }
 
     private void initializeBall() {
-        ball = new Ball(
-                Vector2.ZERO,Vector2.ONES.mult(BALL_RADIUS), this);
+        ball = new Ball(Vector2.ZERO,Vector2.ONES.mult(BALL_RADIUS), this);
         ball.setCenter(windowController.getWindowDimensions().mult(0.5f));
         ball.startMove();
         this.gameObjects().addGameObject(ball);
@@ -137,18 +149,19 @@ public class BrickerGameManager extends GameManager{
     }
 
     private void checkForGameEnd() {
-        // check for a win
-        if (bricksMangager.getBricksNumber() == 0) {
+        // Check for a win
+        if (bricksManager.getBricksNumber() == 0) {
             endGame(true);
         }
 
+        // Check if ball fell below screen
         float ballHeight = ball.getCenter().y();
         if (ballHeight >= windowY) {
             liveManager.decrement();
             if (liveManager.getLives() == 0) {
                 endGame(false);
             }
-            ball.setCenter(new Vector2(windowController.getWindowDimensions().mult(0.5f)));
+            ball.setCenter(windowController.getWindowDimensions().mult(0.5f));
             ball.startMove();
         }
     }
@@ -157,65 +170,149 @@ public class BrickerGameManager extends GameManager{
         String prompt;
         if (isWin) {
             prompt = WIN_PROMPT;
-        }
-        else {
+        } else {
             prompt = LOSE_PROMPT;
         }
 
         if (windowController.openYesNoDialog(prompt)) {
             windowController.resetGame();
-        }
-        else {
+        } else {
             windowController.closeWindow();
         }
     }
 
-
+    /**
+     * Main entry point for the Bricker game.
+     *
+     * @param args Command line arguments: [numRows, numCols] for brick grid dimensions.
+     */
     public static void main(String[] args) {
         BrickerGameManager gameManager = new BrickerGameManager(
                 GAME_TITLE, new Vector2(WINDOW_WIDTH, WINDOW_HEIGHT), args);
         gameManager.run();
     }
 
-
+    /**
+     * Adds a game object to the specified layer.
+     *
+     * @param object The game object to add.
+     * @param layer The layer to add the object to.
+     */
     public void addObject(GameObject object, int layer) {
         gameObjects().addGameObject(object, layer);
     }
+
+    /**
+     * Adds a game object to the default layer.
+     *
+     * @param object The game object to add.
+     */
     public void addObject(GameObject object) {
         gameObjects().addGameObject(object);
     }
-    
+
+    /**
+     * Removes a game object from all layers.
+     *
+     * @param other The game object to remove.
+     */
     public void removeObject(GameObject other) {
         gameObjects().removeGameObject(other);
     }
 
+    /**
+     * Removes a game object from a specific layer.
+     *
+     * @param other The game object to remove.
+     * @param layer The layer to remove the object from.
+     * @return True if the object was removed, false otherwise.
+     */
     public boolean removeObject(GameObject other, int layer) {
         return gameObjects().removeGameObject(other, layer);
     }
 
+    /**
+     * Gets the window dimensions.
+     *
+     * @return The window dimensions as a Vector2.
+     */
     public Vector2 getWindowDims() {
         return windowController.getWindowDimensions();
     }
 
-    public Renderable readImage(String path, Boolean isTransperent ) {
-        return imageReader.readImage(path, isTransperent);
+    /**
+     * Reads an image from the specified path.
+     *
+     * @param path The path to the image file.
+     * @param isTransparent Whether the image has transparency.
+     * @return The renderable image.
+     */
+    public Renderable readImage(String path, Boolean isTransparent) {
+        return imageReader.readImage(path, isTransparent);
     }
 
+    /**
+     * Reads a sound from the specified path.
+     *
+     * @param path The path to the sound file.
+     * @return The sound object.
+     */
     public Sound readSound(String path) {
         return soundReader.readSound(path);
     }
 
+    /**
+     * Gets the user input listener.
+     *
+     * @return The input listener.
+     */
     public UserInputListener getInputListener() {
         return inputListener;
     }
 
+    /**
+     * Gets the live manager instance.
+     *
+     * @return The live manager.
+     */
     public LiveManager getLiveManager() {
         return liveManager;
     }
 
+    /**
+     * Gets the bricks manager instance.
+     *
+     * @return The bricks manager.
+     */
     public BricksManager getBricksManager() {
-        return bricksMangager;
+        return bricksManager;
     }
 
+    /**
+     * Checks if an extra paddle is currently active.
+     *
+     * @return True if an extra paddle exists, false otherwise.
+     */
+    public boolean hasExtraPaddle() {
+        return hasExtraPaddle;
+    }
+
+    /**
+     * Sets whether an extra paddle is currently active.
+     *
+     * @param hasExtraPaddle True if an extra paddle should be marked as active.
+     */
+    public void setHasExtraPaddle(boolean hasExtraPaddle) {
+        this.hasExtraPaddle = hasExtraPaddle;
+    }
+
+    /**
+     * Gets the ball radius constant.
+     *
+     * @return The ball radius in pixels.
+     */
+    public int getBallRadius() {
+        return BALL_RADIUS;
+    }
 }
 

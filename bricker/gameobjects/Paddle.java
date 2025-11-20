@@ -3,14 +3,16 @@ package bricker.gameobjects;
 import bricker.main.BrickerGameManager;
 import danogl.GameObject;
 import danogl.gui.UserInputListener;
-import danogl.gui.WindowController;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
-import danogl.gui.ImageReader;
 
 import java.awt.event.KeyEvent;
 
-public class Paddle  extends GameObject {
+/**
+ * Represents a controllable paddle that the player uses to hit the ball.
+ * The paddle moves left and right based on keyboard input and stays within window bounds.
+ */
+public class Paddle extends GameObject {
 
     private static final float PADDLE_SPEED = 300;
     private static final String PADDLE_IMAGE_PATH = "bricker/assets/paddle.png";
@@ -19,22 +21,35 @@ public class Paddle  extends GameObject {
     protected final BrickerGameManager gameManager;
 
     /**
+     * Constructs a new Paddle instance.
      *
-     * @param topLeftCorner
-     * @param dimensions
-     * @param margin
-     * @param gameManager
+     * @param topLeftCorner Position of the paddle in window coordinates.
+     * @param dimensions Width and height of the paddle.
+     * @param margin Distance to maintain from screen edges.
+     * @param gameManager Reference to the game manager.
      */
     public Paddle(Vector2 topLeftCorner, Vector2 dimensions, float margin,
-            BrickerGameManager gameManager) {
-        Renderable paddleImage =
-                 gameManager.readImage(PADDLE_IMAGE_PATH, true);
-        super(topLeftCorner, dimensions, paddleImage);
+                  BrickerGameManager gameManager) {
+        super(topLeftCorner, dimensions, gameManager.readImage(PADDLE_IMAGE_PATH, true));
         this.gameManager = gameManager;
         this.inputListener = gameManager.getInputListener();
         this.margin = margin;
     }
 
+    /**
+     * Checks if this is the main paddle (not an extra paddle).
+     *
+     * @return True for main paddle, false for extra paddle.
+     */
+    public boolean isMainPaddle() {
+        return true;
+    }
+
+    /**
+     * Updates the paddle position based on user input and enforces boundary constraints.
+     *
+     * @param deltaTime Time elapsed since last update.
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -48,16 +63,17 @@ public class Paddle  extends GameObject {
             paddleVelocity = paddleVelocity.add(Vector2.RIGHT.mult(PADDLE_SPEED));
         }
 
-        if (getTopLeftCorner().x() <= 0 ){
-            setTopLeftCorner(new Vector2(
-                    margin,getTopLeftCorner().y()
-            ));
+        // Keep paddle within left boundary
+        if (getTopLeftCorner().x() <= 0) {
+            setTopLeftCorner(new Vector2(margin, getTopLeftCorner().y()));
             paddleVelocity = Vector2.ZERO;
         }
-        if (getTopLeftCorner().x() >=  gameManager.getWindowDims().x() - getDimensions().x() ) {
+
+        // Keep paddle within right boundary
+        if (getTopLeftCorner().x() >= gameManager.getWindowDims().x() - getDimensions().x()) {
             setTopLeftCorner(new Vector2(
-                    gameManager.getWindowDims().x() - margin - getDimensions().x(),getTopLeftCorner().y()
-            ));
+                    gameManager.getWindowDims().x() - margin - getDimensions().x(),
+                    getTopLeftCorner().y()));
             paddleVelocity = Vector2.ZERO;
         }
 

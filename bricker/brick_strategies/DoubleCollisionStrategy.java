@@ -1,3 +1,59 @@
 package bricker.brick_strategies;
-// class DoubleCollisionStrategy implements BasicCollisionStrategy{
-// }
+
+import bricker.gameobjects.Brick;
+import bricker.main.BrickerGameManager;
+import bricker.main.BricksManager;
+import danogl.GameObject;
+/**
+ * Collision strategy that applies two random special effects simultaneously.
+ * This strategy prevents infinite recursion by using a flag to limit nesting depth.
+ * Package-private as it's only accessed through the CollisionStrategyFactory.
+ */
+class DoubleCollisionStrategy extends BasicCollisionStrategy {
+
+    private static final int STRATEGIES_NUMBER = 2;
+
+    private CollisionStrategy[] collisionStrategies;
+    private CollisionStrategyFactory collisionStrategyFactory;
+    private boolean isFirstDoubleStrategy;
+
+    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager) {
+        super(gameManager, bricksManager);
+        this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
+        makeStrategies();
+        this.isFirstDoubleStrategy = true;
+    }
+    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager, boolean isFirstDoubleStrategy) {
+        super(gameManager, bricksManager);
+        this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
+        makeStrategies();
+        this.isFirstDoubleStrategy = isFirstDoubleStrategy;
+    }
+    private void makeStrategies() {
+        collisionStrategies = new CollisionStrategy[STRATEGIES_NUMBER];
+        if(isFirstDoubleStrategy) {
+            for(int i = 0; i < STRATEGIES_NUMBER; i++) {
+                collisionStrategies[i] = collisionStrategyFactory.buildStrategy("special");
+            }
+        } else {
+            for(int i = 0; i < STRATEGIES_NUMBER; i++) {
+                collisionStrategies[i] = collisionStrategyFactory.buildStrategy("third");
+            }
+        }
+    }
+
+    /**
+     * Handles collision by applying all configured collision strategies.
+     *
+     * @param caller The brick that was hit.
+     * @param other The object that collided with the brick.
+     */
+    @Override
+    public void onCollision(Brick caller, GameObject other) {
+        super.onCollision(caller, other);
+        for(CollisionStrategy strategy : collisionStrategies) {
+            strategy.onCollision(caller, other);
+        }
+    }
+
+}

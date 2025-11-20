@@ -2,64 +2,72 @@ package bricker.brick_strategies;
 
 import bricker.main.BrickerGameManager;
 import bricker.main.BricksManager;
-import bricker.main.LiveManager;
-import danogl.gui.ImageReader;
-import danogl.gui.SoundReader;
 
 import java.util.Random;
 
+/**
+ * Factory class for creating different types of collision strategies.
+ * Supports random selection and specific basic strategy.
+ */
 public class CollisionStrategyFactory {
 
-
+    private static final int SPECIAL_STRATEGY_NUMBER = 5;
+    private static final int THIRD_STRATEGY_NUMBER = 4;
     private final BrickerGameManager gameManager;
     private final BricksManager bricksManager;
-    private Random random;
+    private final Random random;
 
+    /**
+     * Constructs a new CollisionStrategyFactory.
+     *
+     * @param gameManager Reference to the game manager.
+     * @param bricksManager Reference to the bricks manager.
+     */
     public CollisionStrategyFactory(BrickerGameManager gameManager, BricksManager bricksManager) {
         this.gameManager = gameManager;
         this.bricksManager = bricksManager;
-        random = new Random();
+        this.random = new Random();
     }
 
+    private CollisionStrategy buildSpecialStrategy(int randomLimit) {
+        int strategyNumber = random.nextInt(randomLimit);
+        switch (strategyNumber) {
+            case 0:
+                return new BlowingBrickCollisionStrategy(gameManager, bricksManager);
+            case 1:
+                return new ExtraLivesCollisionStrategy(gameManager, bricksManager);
+            case 2:
+                return new PucksCollisionStrategy(gameManager, bricksManager);
+            case 3:
+                return new ExtraPaddleCollisionStrategy(gameManager, bricksManager);
+            case 4:
+                return new DoubleCollisionStrategy(gameManager, bricksManager, false);
+            default:
+                return new BasicCollisionStrategy(gameManager, bricksManager); // Should never happen
+        }
+    }
+
+    /**
+     * Builds a collision strategy based on the specified type.
+     *
+     * @param strategy The type of strategy: "random", "special", "third", or "basic".
+     * @return The constructed collision strategy.
+     */
     public CollisionStrategy buildStrategy(String strategy) {
         switch (strategy) {
-            case "random": {
+            case "random":
                 if (random.nextBoolean()) {
                     return buildStrategy("basic");
                 }
-
-                int StrategyNumber = random.nextInt(5);
-                switch (StrategyNumber) {
-                    case 0:
-                        // Blowing Brick
-                        return new BlowingBrickCollisionStrategy(gameManager, bricksManager);
-                    case 1:
-                        // Extra Lives
-                        return new ExtraLivesCollisionStrategy(gameManager, bricksManager);
-                    case 2:
-                        // Pucks
-                        //return new PucksCollisionStrategy(bricksManager, gameManager);
-                        return new BasicCollisionStrategy(gameManager, bricksManager);
-
-                    case 3:
-                        // Extra Paddle
-                        return new ExtraPaddleCollisionStrategy(gameManager, bricksManager);
-
-                    case 4:
-                        // Double
-                        // ??
-                        return new BasicCollisionStrategy(gameManager, bricksManager);
-
-                }
-                break;
-            }
+                return buildSpecialStrategy(SPECIAL_STRATEGY_NUMBER);
+            case "special":
+                return buildSpecialStrategy(SPECIAL_STRATEGY_NUMBER);
+            case "third":
+                return buildSpecialStrategy(THIRD_STRATEGY_NUMBER);
             case "basic":
                 return new BasicCollisionStrategy(gameManager, bricksManager);
-
             default:
-                return null;
+                return new BasicCollisionStrategy(gameManager, bricksManager); // Should never happen
         }
-
-        return null;
     }
 }
