@@ -166,8 +166,11 @@ public class BrickerGameManager extends GameManager {
         initializeBall();
     }
     /**
-     * TODO - command for the function
-     * */
+     * Updates the game state on each frame.
+     * Checks for win/lose conditions and handles game over scenarios.
+     *
+     * @param deltaTime The time elapsed since the last frame in seconds.
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);

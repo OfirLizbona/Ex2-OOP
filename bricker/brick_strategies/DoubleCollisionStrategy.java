@@ -39,11 +39,20 @@ class DoubleCollisionStrategy extends BasicCollisionStrategy {
 //        makeStrategies();
 //        this.isFirstDoubleStrategy = true;
 //    }
+    /**
+     * Constructs a new DoubleCollisionStrategy.
+     * This overload constructor allows controlling the nesting depth to prevent infinite recursion.
+     *
+     * @param gameManager Reference to the game manager.
+     * @param bricksManager Reference to the bricks manager.
+     * @param isFirstDoubleStrategy If true, allows creating nested double strategies;
+     *                              if false, prevents further nesting.
+     */
     public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager, boolean isFirstDoubleStrategy) {
         super(gameManager, bricksManager);
         this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
-        makeStrategies();
         this.isFirstDoubleStrategy = isFirstDoubleStrategy;
+        makeStrategies();
     }
     /**
      * Handles collision by applying all configured collision strategies.

@@ -20,7 +20,7 @@ public class CollisionStrategyFactory {
     private final Random random;
 
     // Private function
-    private CollisionStrategy buildSpecialStrategy(int randomLimit) {
+    private CollisionStrategy buildSpecialStrategy(int randomLimit, boolean allowDoubleNesting) {
         int strategyNumber = random.nextInt(randomLimit);
         switch (strategyNumber) {
             case 0:
@@ -32,7 +32,7 @@ public class CollisionStrategyFactory {
             case 3:
                 return new ExtraPaddleCollisionStrategy(gameManager, bricksManager);
             case 4:
-                return new DoubleCollisionStrategy(gameManager, bricksManager, false);
+                return new DoubleCollisionStrategy(gameManager, bricksManager, allowDoubleNesting);
             default:
                 return new BasicCollisionStrategy(gameManager, bricksManager); // Should never happen
         }
@@ -62,11 +62,11 @@ public class CollisionStrategyFactory {
                 if (random.nextBoolean()) {
                     return buildStrategy("basic");
                 }
-                return buildSpecialStrategy(SPECIAL_STRATEGY_NUMBER);
+                return buildSpecialStrategy(SPECIAL_STRATEGY_NUMBER, true);
             case "special":
-                return buildSpecialStrategy(SPECIAL_STRATEGY_NUMBER);
+                return buildSpecialStrategy(SPECIAL_STRATEGY_NUMBER, false);
             case "third":
-                return buildSpecialStrategy(THIRD_STRATEGY_NUMBER);
+                return buildSpecialStrategy(THIRD_STRATEGY_NUMBER, false);
             case "basic":
                 return new BasicCollisionStrategy(gameManager, bricksManager);
             default:
