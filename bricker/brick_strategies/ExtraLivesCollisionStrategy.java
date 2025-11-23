@@ -15,10 +15,13 @@ import danogl.util.Vector2;
  * Package-private as it's only accessed through the CollisionStrategyFactory.
  */
 class ExtraLivesCollisionStrategy extends BasicCollisionStrategy {
+    // Private static variables
     private static final float HEART_SIZE = 15;
     private static final String HEART_IMAGE_PATH = "bricker/assets/heart.png";
-    private final LiveManager liveManager;
 
+    //private final LiveManager liveManager;
+
+    // Public functions
     /**
      * Constructs a new ExtraLivesCollisionStrategy.
      *
@@ -27,9 +30,8 @@ class ExtraLivesCollisionStrategy extends BasicCollisionStrategy {
      */
     public ExtraLivesCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager) {
         super(gameManager, bricksManager);
-        this.liveManager = gameManager.getLiveManager();
+        //this.liveManager = gameManager.getLiveManager();
     }
-
     /**
      * Handles collision by spawning a falling heart at the brick's position.
      *

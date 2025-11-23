@@ -10,10 +10,13 @@ import danogl.util.Vector2;
  * The extra paddle disappears after a fixed number of collisions with balls.
  */
 public class ExtraPaddle extends Paddle {
-
+    // Private static variable
     private static final int NUM_COLLISIONS = 4;
+
+    // Private non-static variable
     private int collisionsLeft;
 
+    // Public functions
     /**
      * Constructs a new ExtraPaddle instance.
      *
@@ -27,7 +30,6 @@ public class ExtraPaddle extends Paddle {
         super(topLeftCorner, dimensions, margin, gameManager);
         this.collisionsLeft = NUM_COLLISIONS;
     }
-
     /**
      * Identifies this as an extra paddle (not the main paddle).
      *
@@ -37,7 +39,6 @@ public class ExtraPaddle extends Paddle {
     public boolean isMainPaddle() {
         return false;
     }
-
     /**
      * Handles collision with balls, counting down to self-destruction.
      * After NUM_COLLISIONS collisions, the extra paddle removes itself.

@@ -13,9 +13,10 @@ import danogl.util.Vector2;
  * Package-private as it's only accessed through the CollisionStrategyFactory.
  */
 class PucksCollisionStrategy extends BasicCollisionStrategy {
-
+    // Private static variable
     private static final float PUCK_SCALE = 0.75f;
 
+    // Public functions
     /**
      * Constructs a new PucksCollisionStrategy.
      *
@@ -25,7 +26,6 @@ class PucksCollisionStrategy extends BasicCollisionStrategy {
     public PucksCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager) {
         super(gameManager, bricksManager);
     }
-
     /**
      * Handles collision by spawning a puck at the brick's position.
      *

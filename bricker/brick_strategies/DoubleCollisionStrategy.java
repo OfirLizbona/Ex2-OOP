@@ -10,25 +10,15 @@ import danogl.GameObject;
  * Package-private as it's only accessed through the CollisionStrategyFactory.
  */
 class DoubleCollisionStrategy extends BasicCollisionStrategy {
-
+    // Private static variable
     private static final int STRATEGIES_NUMBER = 2;
 
+    // Private non-static variables
     private CollisionStrategy[] collisionStrategies;
     private CollisionStrategyFactory collisionStrategyFactory;
     private boolean isFirstDoubleStrategy;
 
-    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager) {
-        super(gameManager, bricksManager);
-        this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
-        makeStrategies();
-        this.isFirstDoubleStrategy = true;
-    }
-    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager, boolean isFirstDoubleStrategy) {
-        super(gameManager, bricksManager);
-        this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
-        makeStrategies();
-        this.isFirstDoubleStrategy = isFirstDoubleStrategy;
-    }
+    // Private function
     private void makeStrategies() {
         collisionStrategies = new CollisionStrategy[STRATEGIES_NUMBER];
         if(isFirstDoubleStrategy) {
@@ -42,6 +32,19 @@ class DoubleCollisionStrategy extends BasicCollisionStrategy {
         }
     }
 
+    // Public functions
+//    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager) {
+//        super(gameManager, bricksManager);
+//        this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
+//        makeStrategies();
+//        this.isFirstDoubleStrategy = true;
+//    }
+    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager, boolean isFirstDoubleStrategy) {
+        super(gameManager, bricksManager);
+        this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
+        makeStrategies();
+        this.isFirstDoubleStrategy = isFirstDoubleStrategy;
+    }
     /**
      * Handles collision by applying all configured collision strategies.
      *

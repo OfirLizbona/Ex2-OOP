@@ -11,9 +11,11 @@ import danogl.GameObject;
  * All strategies extend this to ensure the brick is removed on collision.
  */
 public class BasicCollisionStrategy implements CollisionStrategy {
+    // Protected variables (visible for all collision strategies)
     protected final BricksManager bricksManager;
     protected final BrickerGameManager gameManager;
 
+    // Public functions
     /**
      * Constructs a new BasicCollisionStrategy.
      *
@@ -24,7 +26,6 @@ public class BasicCollisionStrategy implements CollisionStrategy {
         this.bricksManager = bricksManager;
         this.gameManager = gameManager;
     }
-
     /**
      * Handles collision by removing the brick from the game.
      *

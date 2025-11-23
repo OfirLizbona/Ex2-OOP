@@ -12,12 +12,14 @@ import danogl.gui.Sound;
  * Package-private as it's only accessed through the CollisionStrategyFactory.
  */
 class BlowingBrickCollisionStrategy extends BasicCollisionStrategy {
-
+    // Private static variables
     private static final String BLOWUP_SOUND_PATH = "bricker/assets/explosion.wav";
     private static final int BLOWUP_RADIUS = 1;
 
+    // Private non-static variable
     private final Sound blowupSound;
 
+    // Public functions
     /**
      * Constructs a new BlowingBrickCollisionStrategy.
      *
@@ -28,7 +30,6 @@ class BlowingBrickCollisionStrategy extends BasicCollisionStrategy {
         super(gameManager, bricksManager);
         this.blowupSound = gameManager.readSound(BLOWUP_SOUND_PATH);
     }
-
     /**
      * Handles collision by removing the brick and all adjacent bricks in a cross pattern.
      *

@@ -13,13 +13,18 @@ import java.awt.event.KeyEvent;
  * The paddle moves left and right based on keyboard input and stays within window bounds.
  */
 public class Paddle extends GameObject {
-
+    // Private static variables
     private static final float PADDLE_SPEED = 300;
     private static final String PADDLE_IMAGE_PATH = "bricker/assets/paddle.png";
+
+    // Private non-static variables
     private final UserInputListener inputListener;
     private final float margin;
+
+    // Protected variable (visible for ExtraPaddle)
     protected final BrickerGameManager gameManager;
 
+    // Public functions
     /**
      * Constructs a new Paddle instance.
      *
@@ -35,7 +40,6 @@ public class Paddle extends GameObject {
         this.inputListener = gameManager.getInputListener();
         this.margin = margin;
     }
-
     /**
      * Checks if this is the main paddle (not an extra paddle).
      *
@@ -44,7 +48,6 @@ public class Paddle extends GameObject {
     public boolean isMainPaddle() {
         return true;
     }
-
     /**
      * Updates the paddle position based on user input and enforces boundary constraints.
      *

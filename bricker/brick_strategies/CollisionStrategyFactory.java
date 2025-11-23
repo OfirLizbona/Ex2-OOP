@@ -10,25 +10,16 @@ import java.util.Random;
  * Supports random selection and specific basic strategy.
  */
 public class CollisionStrategyFactory {
-
+    // Private static variables
     private static final int SPECIAL_STRATEGY_NUMBER = 5;
     private static final int THIRD_STRATEGY_NUMBER = 4;
+
+    // Private non-static variables
     private final BrickerGameManager gameManager;
     private final BricksManager bricksManager;
     private final Random random;
 
-    /**
-     * Constructs a new CollisionStrategyFactory.
-     *
-     * @param gameManager Reference to the game manager.
-     * @param bricksManager Reference to the bricks manager.
-     */
-    public CollisionStrategyFactory(BrickerGameManager gameManager, BricksManager bricksManager) {
-        this.gameManager = gameManager;
-        this.bricksManager = bricksManager;
-        this.random = new Random();
-    }
-
+    // Private function
     private CollisionStrategy buildSpecialStrategy(int randomLimit) {
         int strategyNumber = random.nextInt(randomLimit);
         switch (strategyNumber) {
@@ -47,6 +38,18 @@ public class CollisionStrategyFactory {
         }
     }
 
+    // Public functions
+    /**
+     * Constructs a new CollisionStrategyFactory.
+     *
+     * @param gameManager Reference to the game manager.
+     * @param bricksManager Reference to the bricks manager.
+     */
+    public CollisionStrategyFactory(BrickerGameManager gameManager, BricksManager bricksManager) {
+        this.gameManager = gameManager;
+        this.bricksManager = bricksManager;
+        this.random = new Random();
+    }
     /**
      * Builds a collision strategy based on the specified type.
      *

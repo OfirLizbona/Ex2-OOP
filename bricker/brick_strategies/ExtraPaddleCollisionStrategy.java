@@ -13,10 +13,11 @@ import danogl.util.Vector2;
  * Package-private as it's only accessed through the CollisionStrategyFactory.
  */
 class ExtraPaddleCollisionStrategy extends BasicCollisionStrategy {
-
+    // Private static variables
     private static final Vector2 EXTRA_PADDLE_SIZE = new Vector2(80, 15);
     private static final float EXTRA_PADDLE_MARGIN = 2;
 
+    // Public functions
     /**
      * Constructs a new ExtraPaddleCollisionStrategy.
      *
@@ -26,7 +27,6 @@ class ExtraPaddleCollisionStrategy extends BasicCollisionStrategy {
     public ExtraPaddleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager) {
         super(gameManager, bricksManager);
     }
-
     /**
      * Handles collision by spawning an extra paddle if one doesn't already exist.
      *

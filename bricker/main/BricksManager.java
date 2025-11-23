@@ -12,36 +12,21 @@ import danogl.util.Vector2;
  * Creates a grid of bricks with random collision strategies.
  */
 public class BricksManager {
-
+    // Private static final variables
     private static final int ROWS_DEFAULT_LENGTH = 4;
     private static final int ROWS_DEFAULT_NUMBER = 4;
     private static final float BRICK_MARGIN = 4;
     private static final float BRICK_HEIGHT = 15;
 
+    // Private non-static variables
     private final int rowsNumber;
     private final int rowsLength;
     private final Brick[][] bricks;
     private final BrickerGameManager gameManager;
-    private final LiveManager liveManager;
+    //private final LiveManager liveManager;
     private final Counter bricksNumber;
 
-    /**
-     * Constructs a new BricksManager.
-     * Package-private constructor as it's only created by BrickerGameManager.
-     *
-     * @param gameManager Reference to the game manager.
-     * @param args Command line arguments: [numRows, numCols] for brick grid dimensions.
-     */
-    BricksManager(BrickerGameManager gameManager, String[] args) {
-        this.gameManager = gameManager;
-        this.liveManager = gameManager.getLiveManager();
-        this.rowsNumber = (args.length > 0) ? Integer.parseInt(args[0]) : ROWS_DEFAULT_NUMBER;
-        this.rowsLength = (args.length > 1) ? Integer.parseInt(args[1]) : ROWS_DEFAULT_LENGTH;
-        this.bricks = new Brick[rowsNumber][rowsLength];
-        this.bricksNumber = new Counter(rowsNumber * rowsLength);
-        generateBricks();
-    }
-
+    // Private functions
     private void generateBricks() {
         CollisionStrategyFactory factory = new CollisionStrategyFactory(gameManager, this);
         float brickWidth = (gameManager.getWindowDims().x() / rowsLength) - BRICK_MARGIN;
@@ -60,6 +45,23 @@ public class BricksManager {
         }
     }
 
+    // Public functions
+    /**
+     * Constructs a new BricksManager.
+     * Package-private constructor as it's only created by BrickerGameManager.
+     *
+     * @param gameManager Reference to the game manager.
+     * @param args Command line arguments: [numRows, numCols] for brick grid dimensions.
+     */
+    public BricksManager(BrickerGameManager gameManager, String[] args) {
+        this.gameManager = gameManager;
+        //this.liveManager = gameManager.getLiveManager();
+        this.rowsNumber = (args.length > 0) ? Integer.parseInt(args[0]) : ROWS_DEFAULT_NUMBER;
+        this.rowsLength = (args.length > 1) ? Integer.parseInt(args[1]) : ROWS_DEFAULT_LENGTH;
+        this.bricks = new Brick[rowsNumber][rowsLength];
+        this.bricksNumber = new Counter(rowsNumber * rowsLength);
+        generateBricks();
+    }
     /**
      * Removes a brick at the specified grid position.
      *
@@ -72,7 +74,6 @@ public class BricksManager {
             bricksNumber.decrement();
         }
     }
-
     /**
      * Gets the brick at the specified grid position.
      *
@@ -86,7 +87,6 @@ public class BricksManager {
         }
         return null;
     }
-
     /**
      * Gets the current number of bricks remaining in the game.
      *

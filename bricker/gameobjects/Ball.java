@@ -13,13 +13,20 @@ import java.util.Random;
  * The ball bounces around the screen and collides with paddles, bricks, and walls.
  */
 public class Ball extends GameObject {
-
-    private static final int BALL_SPEED = 300;
+    // Private static variables
     private static final String STANDARD_BALL_PATH = "bricker/assets/ball.png";
     private static final String BLOP_SOUND_PATH = "bricker/assets/blop.wav";
+
+    // Protected static variable (visible for Puck)
+    protected static final int BALL_SPEED = 300;
+
+    // Private non-static variable
     private final Sound collisionSound;
+
+    // Protected non-static variable (visible for Puck)
     protected final BrickerGameManager gameManager;
 
+    // Public functions
     /**
      * Constructs a new Ball instance with default ball image.
      *
@@ -33,7 +40,6 @@ public class Ball extends GameObject {
         this.gameManager = gameManager;
         this.collisionSound = gameManager.readSound(BLOP_SOUND_PATH);
     }
-
     /**
      * Constructs a new Ball instance with a custom renderable image.
      *
@@ -48,7 +54,6 @@ public class Ball extends GameObject {
         this.gameManager = gameManager;
         this.collisionSound = gameManager.readSound(BLOP_SOUND_PATH);
     }
-
     /**
      * Handles collision with other game objects.
      * Reflects the ball's velocity based on collision normal and plays sound.
@@ -65,7 +70,6 @@ public class Ball extends GameObject {
         setVelocity(getVelocity().flipped(collision.getNormal()));
         collisionSound.play();
     }
-
     /**
      * Starts the ball moving in a random direction with fixed speed.
      * The direction is randomly chosen to be up/down and left/right.

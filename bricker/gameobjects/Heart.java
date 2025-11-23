@@ -12,11 +12,14 @@ import danogl.util.Vector2;
  * Hearts fall straight down and disappear if they fall off screen or are caught.
  */
 public class Heart extends GameObject {
+    // Private static variable
     private static final float FALL_SPEED = 100;
 
+    // Private non-static variables
     private final LiveManager liveManager;
     private final BrickerGameManager gameManager;
 
+    // Public functions
     /**
      * Constructs a new Heart instance.
      *
@@ -31,7 +34,6 @@ public class Heart extends GameObject {
         this.gameManager = gameManager;
         this.liveManager = gameManager.getLiveManager();
     }
-
     /**
      * Handles collision with the paddle by granting an extra life.
      * Only the main paddle (not extra paddle) can catch hearts.
@@ -47,14 +49,12 @@ public class Heart extends GameObject {
             gameManager.removeObject(this);
         }
     }
-
     /**
      * Starts the heart falling downward.
      */
     public void startMove() {
         setVelocity(new Vector2(0, FALL_SPEED));
     }
-
     /**
      * Updates the heart's state each frame and removes it if it falls off screen.
      *

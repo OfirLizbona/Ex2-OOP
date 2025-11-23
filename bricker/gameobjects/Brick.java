@@ -11,13 +11,15 @@ import danogl.util.Vector2;
  * Each brick has a collision strategy that determines what happens when it's hit.
  */
 public class Brick extends GameObject {
-
+    // Private static variable
     private static final String BRICK_IMAGE_PATH = "bricker/assets/brick.png";
 
+    // Private non-static variables
     private final CollisionStrategy collisionStrategy;
     private final int row;
     private final int col;
 
+    // Public functions
     /**
      * Constructs a new Brick instance.
      *
@@ -36,7 +38,6 @@ public class Brick extends GameObject {
         this.row = row;
         this.col = col;
     }
-
     /**
      * Handles collision by delegating to the brick's collision strategy.
      *
@@ -48,7 +49,6 @@ public class Brick extends GameObject {
         super.onCollisionEnter(other, collision);
         collisionStrategy.onCollision(this, other);
     }
-
     /**
      * Gets the row index of this brick in the grid.
      *
@@ -57,7 +57,6 @@ public class Brick extends GameObject {
     public int getRow() {
         return row;
     }
-
     /**
      * Gets the column index of this brick in the grid.
      *
