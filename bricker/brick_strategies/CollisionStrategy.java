@@ -14,5 +14,6 @@ public interface CollisionStrategy {
      * @param other The other game object in the collision.
      */
     void onCollision(Brick caller, GameObject other);
+    int getCollisionStrategiesNumber();
 }
 

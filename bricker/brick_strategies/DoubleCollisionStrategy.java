@@ -12,18 +12,29 @@ import danogl.GameObject;
 class DoubleCollisionStrategy extends BasicCollisionStrategy {
     // Private static variable
     private static final int STRATEGIES_NUMBER = 2;
+    private static final int MAX_STRATEGIES_NUMBER = 3;
 
     // Private non-static variables
     private CollisionStrategy[] collisionStrategies;
-    private CollisionStrategyFactory collisionStrategyFactory;
-    private boolean isFirstDoubleStrategy;
+    private final CollisionStrategyFactory collisionStrategyFactory;
+    private final boolean isFirstDoubleStrategy;
 
     // Private function
     private void makeStrategies() {
         collisionStrategies = new CollisionStrategy[STRATEGIES_NUMBER];
+        System.out.println("making Double!");
         if(isFirstDoubleStrategy) {
+            int strategiesNum = 0;
             for(int i = 0; i < STRATEGIES_NUMBER; i++) {
-                collisionStrategies[i] = collisionStrategyFactory.buildStrategy("special");
+                if (strategiesNum + STRATEGIES_NUMBER > MAX_STRATEGIES_NUMBER) {
+                    System.out.println("too many, falling back to 1");
+                    collisionStrategies[i] = collisionStrategyFactory.buildStrategy("third");
+                    strategiesNum ++;
+                }
+                else {
+                    collisionStrategies[i] = collisionStrategyFactory.buildStrategy("special");
+                    strategiesNum += collisionStrategies[i].getCollisionStrategiesNumber();
+                }
             }
         } else {
             for(int i = 0; i < STRATEGIES_NUMBER; i++) {
@@ -68,4 +79,12 @@ class DoubleCollisionStrategy extends BasicCollisionStrategy {
         }
     }
 
+    @Override
+    public int getCollisionStrategiesNumber() {
+        int strategiesNumber = 0;
+        for (CollisionStrategy strategy : collisionStrategies) {
+            strategiesNumber += strategy.getCollisionStrategiesNumber();
+        }
+        return strategiesNumber;
+    }
 }

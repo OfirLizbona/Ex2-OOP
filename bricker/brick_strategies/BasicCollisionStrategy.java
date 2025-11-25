@@ -36,5 +36,9 @@ public class BasicCollisionStrategy implements CollisionStrategy {
     public void onCollision(Brick caller, GameObject other) {
         bricksManager.removeBrick(caller.getRow(), caller.getCol());
     }
+
+    public int getCollisionStrategiesNumber() {
+        return 1;
+    }
 }
 
