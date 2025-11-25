@@ -4,7 +4,6 @@ import bricker.gameobjects.Brick;
 import bricker.gameobjects.Heart;
 import bricker.main.BrickerGameManager;
 import bricker.main.BricksManager;
-import bricker.main.LiveManager;
 import danogl.GameObject;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
@@ -18,8 +17,6 @@ class ExtraLivesCollisionStrategy extends BasicCollisionStrategy {
     // Private static variables
     private static final float HEART_SIZE = 15;
     private static final String HEART_IMAGE_PATH = "bricker/assets/heart.png";
-
-    //private final LiveManager liveManager;
 
     // Public functions
     /**

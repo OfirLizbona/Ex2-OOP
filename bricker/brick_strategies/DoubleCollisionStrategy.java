@@ -12,7 +12,7 @@ import danogl.GameObject;
 class DoubleCollisionStrategy extends BasicCollisionStrategy {
     // Private static variable
     private static final int STRATEGIES_NUMBER = 2;
-    private static final int MAX_STRATEGIES_NUMBER = 3;
+    private static final int MAX_HANDLES_LINE = 3;
 
     // Private non-static variables
     private CollisionStrategy[] collisionStrategies;
@@ -22,12 +22,10 @@ class DoubleCollisionStrategy extends BasicCollisionStrategy {
     // Private function
     private void makeStrategies() {
         collisionStrategies = new CollisionStrategy[STRATEGIES_NUMBER];
-        System.out.println("making Double!");
         if(isFirstDoubleStrategy) {
             int strategiesNum = 0;
             for(int i = 0; i < STRATEGIES_NUMBER; i++) {
-                if (strategiesNum + STRATEGIES_NUMBER > MAX_STRATEGIES_NUMBER) {
-                    System.out.println("too many, falling back to 1");
+                if (strategiesNum + STRATEGIES_NUMBER > MAX_HANDLES_LINE) {
                     collisionStrategies[i] = collisionStrategyFactory.buildStrategy("third");
                     strategiesNum ++;
                 }
@@ -44,12 +42,6 @@ class DoubleCollisionStrategy extends BasicCollisionStrategy {
     }
 
     // Public functions
-//    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager) {
-//        super(gameManager, bricksManager);
-//        this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
-//        makeStrategies();
-//        this.isFirstDoubleStrategy = true;
-//    }
     /**
      * Constructs a new DoubleCollisionStrategy.
      * This overload constructor allows controlling the nesting depth to prevent infinite recursion.

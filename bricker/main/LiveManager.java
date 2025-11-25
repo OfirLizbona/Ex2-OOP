@@ -122,14 +122,6 @@ public class LiveManager {
         }
     }
     /**
-     * Gets the array of heart game objects.
-     *
-     * @return Array of heart icons.
-     */
-//    public GameObject[] getHearts() {
-//        return hearts;
-//    }
-    /**
      * Gets the current number of lives.
      *
      * @return The current number of lives.

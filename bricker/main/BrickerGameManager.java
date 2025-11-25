@@ -20,13 +20,11 @@ public class BrickerGameManager extends GameManager {
     private static final int WINDOW_WIDTH = 700;
     private static final int WINDOW_HEIGHT = 500;
     private static final int BALL_RADIUS = 20;
-    private static final Vector2 PADDLE_SIZE = new Vector2(400,15);
+    private static final Vector2 PADDLE_SIZE = new Vector2(200,15);
     private static final float PADDLE_MARGIN = 2;
     private static final float WALL_WIDTH = 10;
-    //private static final float BRICK_HEIGHT = 15;
     private static final String DARK_BG_PATH = "bricker/assets/DARK_BG2_small.jpeg";
     private static final String GAME_TITLE = "Bricker";
-    //private static final float BRICK_MARGIN = 4;
     private static final String LOSE_PROMPT = "You lost. play again?";
     private static final int INITIAL_LIVES_NUMBER = 3;
     private static final String WIN_PROMPT = "You win! play again?";
@@ -254,14 +252,6 @@ public class BrickerGameManager extends GameManager {
     public LiveManager getLiveManager() {
         return liveManager;
     }
-    /**
-     * Gets the bricks manager instance.
-     *
-     * @return The bricks manager.
-     */
-//    public BricksManager getBricksManager() {
-//        return bricksManager;
-//    }
     /**
      * Checks if an extra paddle is currently active.
      *

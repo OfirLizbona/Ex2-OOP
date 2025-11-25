@@ -23,7 +23,6 @@ public class BricksManager {
     private final int rowsLength;
     private final Brick[][] bricks;
     private final BrickerGameManager gameManager;
-    //private final LiveManager liveManager;
     private final Counter bricksNumber;
 
     // Private functions
