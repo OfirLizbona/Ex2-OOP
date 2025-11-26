@@ -15,6 +15,7 @@ import danogl.util.Vector2;
 class PucksCollisionStrategy extends BasicCollisionStrategy {
     // Private static variable
     private static final float PUCK_SCALE = 0.75f;
+    private static final int PUCKS_NUMBER = 2;
 
     // Public functions
     /**
@@ -35,12 +36,14 @@ class PucksCollisionStrategy extends BasicCollisionStrategy {
     @Override
     public void onCollision(Brick caller, GameObject other) {
         super.onCollision(caller, other);
-        Puck puck = new Puck(Vector2.ZERO,
+        for (int i = 0; i < PUCKS_NUMBER; i++) {
+            Puck puck = new Puck(Vector2.ZERO,
                 Vector2.ONES.mult(gameManager.getBallRadius() * PUCK_SCALE),
                 gameManager);
-        puck.setCenter(caller.getCenter());
-        gameManager.addObject(puck);
-        puck.startMove();
+            puck.setCenter(caller.getCenter());
+            gameManager.addObject(puck);
+            puck.startMove();
+        }
     }
 }
 
