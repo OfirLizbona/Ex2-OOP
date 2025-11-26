@@ -14,7 +14,7 @@ import danogl.util.Vector2;
  */
 class ExtraPaddleCollisionStrategy extends BasicCollisionStrategy {
     // Private static variables
-    private static final Vector2 EXTRA_PADDLE_SIZE = new Vector2(80, 15);
+    private static final Vector2 EXTRA_PADDLE_SIZE = new Vector2(200, 15);
     private static final float EXTRA_PADDLE_MARGIN = 2;
 
     // Public functions

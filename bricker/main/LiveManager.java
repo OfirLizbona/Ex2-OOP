@@ -19,6 +19,9 @@ public class LiveManager {
     private static final int HEART_MARGIN_FROM_EDGE = 10;
     private static final String HEART_IMAGE_PATH = "bricker/assets/heart.png";
     private static final int NUMERICAL_DISPLAY_SIZE = 35;
+    private static final int GREEN_LIVES = 3;
+    private static final int YELLOW_LIVES = 2;
+    private static final int RED_LIVES = 1;
 
     // Private non-static variables
     private final GameObject[] hearts;
@@ -63,11 +66,11 @@ public class LiveManager {
         updateNumericalColor();
     }
     private void updateNumericalColor() {
-        if (lives >= 3) {
+        if (lives >= GREEN_LIVES) {
             textRenderable.setColor(Color.GREEN);
-        } else if (lives == 2) {
+        } else if (lives >= YELLOW_LIVES) {
             textRenderable.setColor(Color.YELLOW);
-        } else if (lives == 1) {
+        } else if (lives >= RED_LIVES) {
             textRenderable.setColor(Color.RED);
         }
     }
