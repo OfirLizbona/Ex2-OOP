@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class Puck extends Ball {
     // Private static variable
-    private static final String PUCK_IMAGE_PATH = "bricker/assets/mockBall.png";
+    private static final String PUCK_IMAGE_PATH = "assets/mockBall.png";
 
     // Public functions
     /**

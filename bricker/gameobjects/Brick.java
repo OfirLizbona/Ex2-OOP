@@ -12,7 +12,7 @@ import danogl.util.Vector2;
  */
 public class Brick extends GameObject {
     // Private static variable
-    private static final String BRICK_IMAGE_PATH = "bricker/assets/brick.png";
+    private static final String BRICK_IMAGE_PATH = "assets/brick.png";
 
     // Private non-static variables
     private final CollisionStrategy collisionStrategy;

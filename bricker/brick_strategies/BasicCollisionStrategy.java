@@ -11,8 +11,13 @@ import danogl.GameObject;
  * All strategies extend this to ensure the brick is removed on collision.
  */
 public class BasicCollisionStrategy implements CollisionStrategy {
-    // Protected variables (visible for all collision strategies)
+    /**
+     * Protected BricksManager (visible for all collision strategies)
+     */
     protected final BricksManager bricksManager;
+    /**
+     * Protected BrickerGameManager (visible for all collision strategies)
+     */
     protected final BrickerGameManager gameManager;
 
     // Public functions
@@ -33,8 +38,11 @@ public class BasicCollisionStrategy implements CollisionStrategy {
      * @param other The object that collided with the brick.
      */
     @Override
-    public void onCollision(Brick caller, GameObject other) {
-        bricksManager.removeBrick(caller.getRow(), caller.getCol());
+    public void onCollision(GameObject caller, GameObject other) {
+        if (caller instanceof Brick brick) {
+            bricksManager.removeBrick(brick.getRow(), brick.getCol());
+
+        }
     }
 
     public int getCollisionStrategiesNumber() {

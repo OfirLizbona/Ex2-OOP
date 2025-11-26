@@ -23,7 +23,7 @@ public class BrickerGameManager extends GameManager {
     private static final Vector2 PADDLE_SIZE = new Vector2(200,15);
     private static final float PADDLE_MARGIN = 2;
     private static final float WALL_WIDTH = 10;
-    private static final String DARK_BG_PATH = "bricker/assets/DARK_BG2_small.jpeg";
+    private static final String DARK_BG_PATH = "assets/DARK_BG2_small.jpeg";
     private static final String GAME_TITLE = "Bricker";
     private static final String LOSE_PROMPT = "You lost. play again?";
     private static final int INITIAL_LIVES_NUMBER = 3;

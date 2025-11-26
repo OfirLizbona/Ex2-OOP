@@ -16,7 +16,7 @@ import danogl.util.Vector2;
 class ExtraLivesCollisionStrategy extends BasicCollisionStrategy {
     // Private static variables
     private static final float HEART_SIZE = 15;
-    private static final String HEART_IMAGE_PATH = "bricker/assets/heart.png";
+    private static final String HEART_IMAGE_PATH = "assets/heart.png";
 
     // Public functions
     /**
@@ -36,7 +36,7 @@ class ExtraLivesCollisionStrategy extends BasicCollisionStrategy {
      * @param other The object that collided with the brick.
      */
     @Override
-    public void onCollision(Brick caller, GameObject other) {
+    public void onCollision(GameObject caller, GameObject other) {
         super.onCollision(caller, other);
         Renderable heartImage = gameManager.readImage(HEART_IMAGE_PATH, true);
         Heart heart = new Heart(Vector2.ZERO,

@@ -13,7 +13,7 @@ import danogl.gui.Sound;
  */
 class BlowingBrickCollisionStrategy extends BasicCollisionStrategy {
     // Private static variables
-    private static final String BLOWUP_SOUND_PATH = "bricker/assets/explosion.wav";
+    private static final String BLOWUP_SOUND_PATH = "assets/explosion.wav";
     private static final int BLOWUP_RADIUS = 1;
 
     // Private non-static variable
@@ -37,28 +37,30 @@ class BlowingBrickCollisionStrategy extends BasicCollisionStrategy {
      * @param other The object that collided with the brick.
      */
     @Override
-    public void onCollision(Brick caller, GameObject other) {
-        super.onCollision(caller, other);
+    public void onCollision(GameObject caller, GameObject other) {
+        if (caller instanceof Brick brick) {
+            super.onCollision(caller, other);
+            blowupSound.play();
 
-        blowupSound.play();
 
-        // Blow up all neighbors in a cross pattern
-        int row = caller.getRow();
-        int col = caller.getCol();
-        for (int i = -1 * BLOWUP_RADIUS; i <= BLOWUP_RADIUS; i++) {
-            if (i != 0) {
-                Brick neighbor = bricksManager.getBrick(row + i, col);
-                if (neighbor != null) {
-                    neighbor.onCollisionEnter(neighbor, null);
+            // Blow up all neighbors in a cross pattern
+            int row = brick.getRow();
+            int col = brick.getCol();
+            for (int i = -1 * BLOWUP_RADIUS; i <= BLOWUP_RADIUS; i++) {
+                if (i != 0) {
+                    Brick neighbor = bricksManager.getBrick(row + i, col);
+                    if (neighbor != null) {
+                        neighbor.onCollisionEnter(neighbor, null);
+                    }
                 }
             }
-        }
 
-        for (int j = -1 * BLOWUP_RADIUS; j <= BLOWUP_RADIUS; j++) {
-            if (j != 0) {
-                Brick neighbor = bricksManager.getBrick(row, col + j);
-                if (neighbor != null) {
-                    neighbor.onCollisionEnter(neighbor, null);
+            for (int j = -1 * BLOWUP_RADIUS; j <= BLOWUP_RADIUS; j++) {
+                if (j != 0) {
+                    Brick neighbor = bricksManager.getBrick(row, col + j);
+                    if (neighbor != null) {
+                        neighbor.onCollisionEnter(neighbor, null);
+                    }
                 }
             }
         }

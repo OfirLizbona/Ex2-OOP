@@ -13,7 +13,11 @@ public interface CollisionStrategy {
      * @param caller The brick that was involved in the collision.
      * @param other The other game object in the collision.
      */
-    void onCollision(Brick caller, GameObject other);
+    void onCollision(GameObject caller, GameObject other);
+    /**
+     * get collision strategies number (including nested with double strategy)
+     * */
+
     int getCollisionStrategiesNumber();
 }
 

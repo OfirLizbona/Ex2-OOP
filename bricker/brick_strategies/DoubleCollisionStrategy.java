@@ -51,7 +51,8 @@ class DoubleCollisionStrategy extends BasicCollisionStrategy {
      * @param isFirstDoubleStrategy If true, allows creating nested double strategies;
      *                              if false, prevents further nesting.
      */
-    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager, boolean isFirstDoubleStrategy) {
+    public DoubleCollisionStrategy(BrickerGameManager gameManager, BricksManager bricksManager,
+                                        boolean isFirstDoubleStrategy) {
         super(gameManager, bricksManager);
         this.collisionStrategyFactory = new CollisionStrategyFactory(gameManager, bricksManager);
         this.isFirstDoubleStrategy = isFirstDoubleStrategy;
@@ -64,7 +65,7 @@ class DoubleCollisionStrategy extends BasicCollisionStrategy {
      * @param other The object that collided with the brick.
      */
     @Override
-    public void onCollision(Brick caller, GameObject other) {
+    public void onCollision(GameObject caller, GameObject other) {
         super.onCollision(caller, other);
         for(CollisionStrategy strategy : collisionStrategies) {
             strategy.onCollision(caller, other);

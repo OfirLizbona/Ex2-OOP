@@ -34,7 +34,7 @@ class PucksCollisionStrategy extends BasicCollisionStrategy {
      * @param other The object that collided with the brick.
      */
     @Override
-    public void onCollision(Brick caller, GameObject other) {
+    public void onCollision(GameObject caller, GameObject other) {
         super.onCollision(caller, other);
         for (int i = 0; i < PUCKS_NUMBER; i++) {
             Puck puck = new Puck(Vector2.ZERO,

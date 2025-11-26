@@ -14,16 +14,20 @@ import java.util.Random;
  */
 public class Ball extends GameObject {
     // Private static variables
-    private static final String STANDARD_BALL_PATH = "bricker/assets/ball.png";
-    private static final String BLOP_SOUND_PATH = "bricker/assets/blop.wav";
+    private static final String STANDARD_BALL_PATH = "assets/ball.png";
+    private static final String BLOP_SOUND_PATH = "assets/blop.wav";
 
-    // Protected static variable (visible for Puck)
+    /**
+     * Protected static variable (visible for Puck)
+     * */
     protected static final int BALL_SPEED = 300;
 
     // Private non-static variable
     private final Sound collisionSound;
 
-    // Protected non-static variable (visible for Puck)
+    /**
+     * Protected non-static variable (visible for Puck)
+     * */
     protected final BrickerGameManager gameManager;
 
     // Public functions

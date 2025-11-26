@@ -15,13 +15,15 @@ import java.awt.event.KeyEvent;
 public class Paddle extends GameObject {
     // Private static variables
     private static final float PADDLE_SPEED = 300;
-    private static final String PADDLE_IMAGE_PATH = "bricker/assets/paddle.png";
+    private static final String PADDLE_IMAGE_PATH = "assets/paddle.png";
 
     // Private non-static variables
     private final UserInputListener inputListener;
     private final float margin;
 
-    // Protected variable (visible for ExtraPaddle)
+    /**
+     * Protected variable (visible for ExtraPaddle)
+     * */
     protected final BrickerGameManager gameManager;
 
     // Public functions

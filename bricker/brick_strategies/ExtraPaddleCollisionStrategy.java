@@ -34,7 +34,7 @@ class ExtraPaddleCollisionStrategy extends BasicCollisionStrategy {
      * @param other The object that collided with the brick.
      */
     @Override
-    public void onCollision(Brick caller, GameObject other) {
+    public void onCollision(GameObject caller, GameObject other) {
         super.onCollision(caller, other);
         // Check if there isn't another extra paddle already active
         if (!gameManager.hasExtraPaddle()) {

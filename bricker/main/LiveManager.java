@@ -17,7 +17,7 @@ public class LiveManager {
     private static final int HEART_SIZE = 20;
     private static final int HEART_SPACING = 25;
     private static final int HEART_MARGIN_FROM_EDGE = 10;
-    private static final String HEART_IMAGE_PATH = "bricker/assets/heart.png";
+    private static final String HEART_IMAGE_PATH = "assets/heart.png";
     private static final int NUMERICAL_DISPLAY_SIZE = 35;
     private static final int GREEN_LIVES = 3;
     private static final int YELLOW_LIVES = 2;
